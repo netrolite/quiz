@@ -22,6 +22,11 @@ body::before {
   border: 1px solid blue;
   min-height: 50px;
   font-size: 2rem;
+  cursor: pointer;
+}
+
+.box:hover {
+  background-color: red;
 }
 
 @media (min-width: 576px) {
