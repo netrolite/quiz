@@ -2,33 +2,53 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css"
 
 export default class App extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            firstName: "John",
-            lastName: "Doe",
-            phone: "+1-(719)-555-12-12",
-            email: "gofuckyourself@gmail.com",
-            isStarred: false
-        }
-        this.toggleStar = this.toggleStar.bind(this);
+    state = {
+        character: {},
+        characterHomeworld: {}
     }
 
-    toggleStar() {this.setState(prevState => ({isStarred: !prevState.isStarred}))}
+    componentDidMount() {
+        console.log("Component did mount");
+        fetch("https://swapi.dev/api/people/1")
+            .then(res => {
+                if (res.ok) return res.json();
+            })
+            .then(data => {
+                this.setState({ character: data })
+            });
+
+        fetch("https://swapi.dev/api/planets/1/")
+            .then(res => {
+                if (res.ok) return res.json();
+            })
+            .then(data => {
+                this.setState({characterHomeworld: data})
+            })
+    }
 
     render() {
+        console.log(this.state.characterHomeworld, "characterHomeworld")
+        console.log(this.state.character, "character")
         return (
-            <main>
-                <article className="card">
-                    <div className="card--info">
-                        <button onClick={this.toggleStar}>{this.state.isStarred ? "Starred" : "Star"}</button>
-                        <h2 className="card--name">
-                            {this.state.firstName} {this.state.lastName}
-                        </h2>
-                        <p className="card--contact">{this.state.phone}</p>
-                        <p className="card--contact">{this.state.email}</p>
-                    </div>
-                </article>
+            <main className="container">
+                <h1>Character properties</h1>
+                {
+                    (
+                        Object.keys(this.state.character).length > 0 
+                        && Object.keys(this.state.characterHomeworld).length > 0
+                    )
+                    ?
+                        <ul>
+                            <li>Full name: {this.state.character.name}</li>
+                            <li>Weight: {this.state.character.mass}</li>
+                            <li>Eye color: {this.state.character.eye_color}</li>
+                            <li>Height: {this.state.character.height}</li>
+                            <li>Homeworld: {this.state.characterHomeworld.name}</li>
+                        </ul>
+                    :
+                        "Loading..."
+                }
+                
             </main>
         )
     }
