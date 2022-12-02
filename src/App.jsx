@@ -7,6 +7,10 @@ export default class App extends React.Component {
     }
 
     componentDidMount() {
+        this.getFact()
+    }
+
+    getFact = () => {
         fetch("https://catfact.ninja/fact")
             .then(res => {
                 if (res.ok) return res.json();
@@ -20,7 +24,13 @@ export default class App extends React.Component {
 
     render() {
         return (
-            <main>
+            <main className="container">
+                <button
+                    style={{marginBottom: "25px", display: "block"}}
+                    onClick={this.getFact}
+                >
+                    Get Fact
+                </button>
                 {this.state.catFact}
             </main>
         )
