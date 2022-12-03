@@ -3,14 +3,17 @@ import "bootstrap/dist/css/bootstrap.min.css"
 
 export default function StartScreen() {
     const [formData, setFormData] = useState({
-        numberOfQuestions: 0,
-        category: "",
-        difficulty: "",
-        type: ""
+        numberOfQuestions: "10",
+        category: "any",
+        difficulty: "any",
+        type: "any"
     })
     
     function formUpdate(ev) {
-        console.log(ev.target.value)
+        setFormData(prevState => ({
+            ...prevState,
+            [ev.target.name]: ev.target.value
+        }))
     }
     
     return (
@@ -25,6 +28,7 @@ export default function StartScreen() {
                         name="numberOfQuestions"
                         defaultValue={10}
                         onChange={formUpdate}
+                        placeholder="10"
                     />
                 </div>
 
@@ -35,7 +39,7 @@ export default function StartScreen() {
                         name="category"
                         onChange={formUpdate}
                     >
-                        <option value="">Any category</option>
+                        <option value="any">Any category</option>
                         <option value="9">General knowledge</option>
                         <option value="17">Science and nature</option>
                         <option value="18">Computers</option>
@@ -50,7 +54,7 @@ export default function StartScreen() {
                         name="difficulty"
                         onChange={formUpdate}
                     >
-                        <option value="">Any difficulty</option>
+                        <option value="any">Any difficulty</option>
                         <option value="easy">Easy</option>
                         <option value="medium">Medium</option>
                         <option value="hard">Hard</option>
@@ -64,7 +68,7 @@ export default function StartScreen() {
                         name="type"
                         onChange={formUpdate}
                     >
-                        <option value="">Any type</option>
+                        <option value="any">Any type</option>
                         <option value="multiple">Multiple choice</option>
                         <option value="boolean">True/False</option>
                     </select>
