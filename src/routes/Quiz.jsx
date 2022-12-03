@@ -36,8 +36,6 @@ export default function Quiz(props) {
     const questionsNodes = questions.map((item, index) => (
         <Question
             key={index}
-            type={item.type}
-            difficulty={item.difficulty}
             question={item.question}
             correctAnswer={item.correct_answer}
             incorrectAnswers={item.incorrect_answers}

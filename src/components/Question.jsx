@@ -1,9 +1,10 @@
+import { useState } from "react";
 import Answer from "./Answer";
 
 export default function Question(props) {
-    const answers = [props.correctAnswer, ...props.incorrectAnswers];
-    const answersShuffled = shuffle(answers);
+    const [selectedAnswerId, setSelectedAnswerId] = useState(null);
 
+    // randomize array order
     function shuffle(arr) {
         let currLen = arr.length;
         let randomIndex;
@@ -19,9 +20,23 @@ export default function Question(props) {
         return shuffledArr;
     }
 
+    let answers = props.incorrectAnswers.map(item => ({
+        content: item,
+        isCorrect: false,
+    }));
+    answers.push({
+        content: props.correctAnswer,
+        isCorrect: true,
+    });
+    const answersShuffled = shuffle(answers);
+
     const answersNodes = answersShuffled.map((item, index) => (
         <Answer
-            answerContent={item}
+            content={item.content}
+            isCorrect={item.isCorrect}
+            setSelectedAnswerId={setSelectedAnswerId}
+            isSelected={selectedAnswerId === index ? true : false}
+            id={index}
             key={index}
         />
     ))
