@@ -5,6 +5,6 @@ import "./css/index.css"
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App string={"hello this is a prop"} bool={true} />
+    <App />
   </React.StrictMode>
 )

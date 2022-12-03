@@ -1,38 +1,20 @@
 import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import Quiz from "./Quiz";
+import StartScreen from "./StartScreen";
+import NotFound from "./NotFound";
 import "bootstrap/dist/css/bootstrap.min.css"
 
-export default class App extends React.Component {
-    state = {
-        catFact: ""
-    }
-
-    componentDidMount() {
-        this.getFact()
-    }
-
-    getFact = () => {
-        fetch("https://catfact.ninja/fact")
-            .then(res => {
-                if (res.ok) return res.json();
-            })
-            .then(data => {
-                this.setState({
-                    catFact: data.fact
-                })
-            })
-    }
-
-    render() {
-        return (
-            <main className="container">
-                <button
-                    style={{marginBottom: "25px", display: "block"}}
-                    onClick={this.getFact}
-                >
-                    Get Fact
-                </button>
-                {this.state.catFact}
-            </main>
-        )
-    }
+export default function App() {
+    return (
+        <main>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<StartScreen />} />
+                    <Route path="/quiz" element={<Quiz />} />
+                    <Route path="*" element={<NotFound />} />
+                </Routes>
+            </BrowserRouter>
+        </main>
+    )
 }
