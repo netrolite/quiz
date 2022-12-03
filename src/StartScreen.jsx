@@ -1,21 +1,16 @@
-import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css"
 
-export default function StartScreen() {
-    const [formData, setFormData] = useState({
-        numberOfQuestions: "10",
-        category: "any",
-        difficulty: "any",
-        type: "any"
-    })
-    
+export default function StartScreen(props) {
+    const { numberOfQuestions, category, difficulty, type } = props.formData
+
     function formUpdate(ev) {
-        setFormData(prevState => ({
+        props.setFormData(prevState => ({
             ...prevState,
             [ev.target.name]: ev.target.value
         }))
     }
-    
+
     return (
         <>
             <h1>Quiz</h1>
@@ -26,9 +21,11 @@ export default function StartScreen() {
                         type="number"
                         className="form-control"
                         name="numberOfQuestions"
-                        defaultValue={10}
+                        value={numberOfQuestions}
                         onChange={formUpdate}
                         placeholder="10"
+                        max="50"
+                        min="1"
                     />
                 </div>
 
@@ -38,6 +35,7 @@ export default function StartScreen() {
                         className="form-select"
                         name="category"
                         onChange={formUpdate}
+                        value={category}
                     >
                         <option value="any">Any category</option>
                         <option value="9">General knowledge</option>
@@ -53,6 +51,7 @@ export default function StartScreen() {
                         className="form-select"
                         name="difficulty"
                         onChange={formUpdate}
+                        value={difficulty}
                     >
                         <option value="any">Any difficulty</option>
                         <option value="easy">Easy</option>
@@ -67,6 +66,7 @@ export default function StartScreen() {
                         className="form-select"
                         name="type"
                         onChange={formUpdate}
+                        value={type}
                     >
                         <option value="any">Any type</option>
                         <option value="multiple">Multiple choice</option>
@@ -74,11 +74,13 @@ export default function StartScreen() {
                     </select>
                 </div>
             </form>
-            <button 
-                className="btn btn-primary start-btn"
-            >
-                Start
-            </button>
+            <Link to="/quiz">
+                <button
+                    className="btn btn-primary start-btn"
+                >
+                    Start
+                </button>
+            </Link>
         </>
     )
 }
