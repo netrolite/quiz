@@ -33,7 +33,6 @@ export default function Quiz(props) {
             })
     }, [])
 
-    console.log(questions);
     const questionsNodes = questions.map((item, index) => (
         <Question
             key={index}
