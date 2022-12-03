@@ -10,7 +10,7 @@ export default function StartScreen(props) {
             [ev.target.name]: ev.target.value
         }))
     }
-
+    
     return (
         <>
             <h1>Quiz</h1>

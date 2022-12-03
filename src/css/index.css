@@ -28,3 +28,8 @@ h2 {
 .start-btn {
     width: 100%;
 }
+
+.question {
+    border: 1px solid black;
+    margin-bottom: 20px;
+}
