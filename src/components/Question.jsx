@@ -32,7 +32,7 @@ export default function Question(props) {
             <p className="question">
                 {props.question}
             </p>
-            <div className="answers">
+            <div className={"answers"}>
                 {answersNodes}
             </div>
         </div>

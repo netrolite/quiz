@@ -80,3 +80,7 @@ h2 {
     color: #fff;
     border: none;
 }
+
+.answers-disabled .answer {
+    cursor: auto;
+}

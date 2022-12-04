@@ -112,7 +112,7 @@ export default function Quiz(props) {
     return (
         <>
             <h1>Quiz</h1>
-            <div className="questions">
+            <div className={"questions" + (showAnswers ? " answers-disabled" : "")}>
                 {questionsNodes}
             </div>
             {buttonsAndScore}

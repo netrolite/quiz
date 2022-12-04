@@ -4,7 +4,6 @@ import { ShowAnswersContext } from "../routes/Quiz"
 export default function Answer(props) {
     const showAnswers = useContext(ShowAnswersContext);
 
-
     let classNames = "answer"
     if (!showAnswers && props.isSelected) {
         classNames += " selected"
@@ -15,12 +14,18 @@ export default function Answer(props) {
     else if (props.answerStyle === "incorrect") {
         classNames += " incorrect"
     }
+
+    function selectAnswer() {
+        if (!showAnswers) {
+            props.setSelectedAnswerId(props.id);
+        }
+    }
     
 
     return (
         <div
             className={classNames}
-            onClick={() => props.setSelectedAnswerId(props.id)}
+            onClick={selectAnswer}
         >
             {props.answer}
         </div>
