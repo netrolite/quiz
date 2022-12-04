@@ -1,5 +1,5 @@
-import { selectAnswer } from "./functions";
 import { useContext } from "react"
+import { selectAnswer, htmlDecode } from "./functions";
 import { ShowAnswersContext } from "../routes/Quiz"
 
 export default function Answer(props) {
@@ -16,12 +16,14 @@ export default function Answer(props) {
         classNames += " incorrect"
     }
 
+    const formattedAnswer = htmlDecode(props.answer)
+
     return (
         <div
             className={classNames}
             onClick={() => selectAnswer(showAnswers, props.setSelectedAnswerId, props.id)}
         >
-            {props.answer}
+            {formattedAnswer}
         </div>
     )
 }
