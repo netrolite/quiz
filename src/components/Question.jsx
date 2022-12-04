@@ -4,7 +4,6 @@ import Answer from "./Answer";
 export default function Question(props) {
     const [selectedAnswerId, setSelectedAnswerId] = useState(null);
 
-
     const answersNodes = props.allAnswers.map((item, index) => {
         return <Answer
             answer={item.answer}

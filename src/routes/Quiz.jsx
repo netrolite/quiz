@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, createContext } from "react";
 import Question from "../components/Question";
 import "bootstrap/dist/css/bootstrap.min.css"
+
+export const ShowAnswersContext = createContext();
 
 export default function Quiz(props) {
     const [questionsData, setQuestionsData] = useState();
@@ -55,9 +57,15 @@ export default function Quiz(props) {
             })
     }, [])
 
+    function endQuiz() {
+        setShowAnswers(true);
+    }
+
     let questionsNodes;
     let buttonsAndScore;
 
+    // if the questions data is received, fill questionsNodes with question components and fill buttonsAndScore with some data as well
+    // otherwise, set questionsNodes to "Loading...", and leave buttonsAndScore undefined
     if (questionsData) {
         questionsNodes = questionsData.map((item, index) => (
             <Question 
@@ -66,12 +74,17 @@ export default function Quiz(props) {
                 key={index}
             />
         ))
+        questionsNodes = (
+            <ShowAnswersContext.Provider value={showAnswers}>
+                {questionsNodes}
+            </ShowAnswersContext.Provider>
+        )
 
         buttonsAndScore = (
             <div className="buttons-and-score">
                 <button
                     className="btn btn-primary check-answers-btn"
-
+                    onClick={endQuiz}
                 >
                     Check Answers
                 </button>
@@ -80,10 +93,7 @@ export default function Quiz(props) {
     }
     else {
         questionsNodes = <p>Loading...</p>
-    } 
-
-
-
+    }
 
     return (
         <>
