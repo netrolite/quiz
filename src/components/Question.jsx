@@ -7,7 +7,18 @@ export default function Question(props) {
     const showAnswers = useContext(ShowAnswersContext)
 
     useEffect(() => {
-        // 0 is a falsy value
+        if (showAnswers) {
+            props.allAnswers.map((item, index) => {
+                if (index === selectedAnswerId && item.isCorrect) {
+                    props.setScore(prevState => prevState + 1);
+                }
+            })
+        }
+    }, [showAnswers])
+
+    // if user has selected an option, set answered to true
+    // 0 is a falsy value
+    useEffect(() => {
         if (selectedAnswerId >= 0) {
             props.setAnswered(prevState => (
                 {
@@ -17,17 +28,6 @@ export default function Question(props) {
             ))
         }
     }, [selectedAnswerId])
-
-    // if showAnswers is true, check if user answered correctly, and if so, add 1 to score
-    useEffect(() => {
-        if (showAnswers) {
-            props.allAnswers.forEach((item, index) => {
-                if (index === selectedAnswerId && item.isCorrect) {
-                    props.setScore(prevState => prevState + 1);
-                }
-            })
-        }
-    }, [showAnswers])
 
     const answersNodes = props.allAnswers.map((item, index) => {
         const isSelected = index === selectedAnswerId;

@@ -12,6 +12,12 @@ export default function Quiz(props) {
     const [answered, setAnswered] = useState({});
     const [didntAnswerAllPopupShow, setDidntAnswerAllPopupShow] = useState(false);
 
+    let hasAnsweredAll;
+    if (Object.values(answered).every(item => item === true)) {
+        hasAnsweredAll = true
+    }
+    else hasAnsweredAll = false;
+
     useEffect(() => {
         if (questionsData) {
             // used to determine whether the user has answered all the questions
@@ -89,6 +95,7 @@ export default function Quiz(props) {
                 question={item.question}
                 allAnswers={item.allAnswers}
                 setAnswered={setAnswered}
+                setScore={setScore}
                 id={index}
                 key={index}
             />
@@ -110,9 +117,17 @@ export default function Quiz(props) {
                 <button
                     className={
                         "btn btn-primary check-answers-btn"
-                        + (!showAnswers ? " disabled" : "")
+                        + (!hasAnsweredAll ? " disabled" : "")
                     }
-                    onClick={() => endQuiz(setShowAnswers, answered, setDidntAnswerAllPopupShow)}
+                    onClick={
+                        () => endQuiz(
+                            setShowAnswers,
+                            hasAnsweredAll,
+                            setDidntAnswerAllPopupShow,
+                            answered,
+                            setScore
+                        )
+                    }
                 >
                     Check Answers
                 </button>

@@ -17,9 +17,9 @@ function htmlDecode(input) {
     return doc.documentElement.textContent;
 }
 
-function endQuiz(setShowAnswers, answered, setDidntAnswerAllPopupShow) {
+function endQuiz(setShowAnswers, hasAnsweredAll, setDidntAnswerAllPopupShow) {
     // if every question is answered, show correct answers
-    if (Object.values(answered).every(item => item === true)) {
+    if (hasAnsweredAll) {
         setShowAnswers(true);
     }
     else {
