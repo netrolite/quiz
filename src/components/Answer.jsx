@@ -9,6 +9,12 @@ export default function Answer(props) {
     if (!showAnswers && props.isSelected) {
         classNames += " selected"
     }
+    else if (props.answerStyle === "correct") {
+        classNames += " correct"
+    }
+    else if (props.answerStyle === "incorrect") {
+        classNames += " incorrect"
+    }
     
 
     return (

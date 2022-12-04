@@ -7,19 +7,19 @@ export default function Question(props) {
     const showAnswers = useContext(ShowAnswersContext)
 
     const answersNodes = props.allAnswers.map((item, index) => {
-        // componentStyle is used to determine how to display each answer when "Check Answers" button is clicked
-        // incorrect answers are red, correct are green, others stay the same (that's what initial null value is used for)
-        let componentStyle = null;
+        // answerStyle is used to determine how to display each answer when "Check Answers" button is clicked
+        // correct answers are green, incorrect are red, others stay the same (that's what initial null value is used for)
+        let answerStyle = null;
         if (showAnswers && index === selectedAnswerId && item.isCorrect) {
-            componentStyle = "correct"
+            answerStyle = "correct"
         }
         else if (showAnswers && index === selectedAnswerId && !item.isCorrect) {
-            componentStyle = "incorrect"
+            answerStyle = "incorrect"
         }
 
         return <Answer
             answer={item.answer}
-            componentStyle={componentStyle}
+            answerStyle={answerStyle}
             isSelected={index === selectedAnswerId ? true : false}
             setSelectedAnswerId={setSelectedAnswerId}
             id={index}

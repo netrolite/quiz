@@ -66,3 +66,17 @@ h2 {
     width: 100%;
     margin-top: 20px;
 }
+
+.correct {
+    background-color: var(--bs-success);
+}
+
+.incorrect {
+    background-color: var(--bs-danger);
+}
+
+.correct, .incorrect {
+    padding: 7px 12px;
+    color: #fff;
+    border: none;
+}
