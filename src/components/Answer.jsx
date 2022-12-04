@@ -1,3 +1,4 @@
+import { selectAnswer } from "./functions";
 import { useContext } from "react"
 import { ShowAnswersContext } from "../routes/Quiz"
 
@@ -15,17 +16,10 @@ export default function Answer(props) {
         classNames += " incorrect"
     }
 
-    function selectAnswer() {
-        if (!showAnswers) {
-            props.setSelectedAnswerId(props.id);
-        }
-    }
-    
-
     return (
         <div
             className={classNames}
-            onClick={selectAnswer}
+            onClick={() => selectAnswer(showAnswers, props.setSelectedAnswerId, props.id)}
         >
             {props.answer}
         </div>

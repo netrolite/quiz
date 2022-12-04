@@ -1,15 +1,9 @@
+import { formUpdate } from "../components/functions";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css"
 
 export default function StartScreen(props) {
     const { numberOfQuestions, category, difficulty, type } = props.formData
-
-    function formUpdate(ev) {
-        props.setFormData(prevState => ({
-            ...prevState,
-            [ev.target.name]: ev.target.value
-        }))
-    }
     
     return (
         <>
@@ -22,7 +16,7 @@ export default function StartScreen(props) {
                         className="form-control"
                         name="numberOfQuestions"
                         value={numberOfQuestions}
-                        onChange={formUpdate}
+                        onChange={ev => formUpdate(ev, props.setFormData)}
                         placeholder="10"
                         max="50"
                         min="1"
@@ -34,7 +28,7 @@ export default function StartScreen(props) {
                     <select
                         className="form-select"
                         name="category"
-                        onChange={formUpdate}
+                        onChange={ev => formUpdate(ev, props.setFormData)}
                         value={category}
                     >
                         <option value="any">Any category</option>
@@ -50,7 +44,7 @@ export default function StartScreen(props) {
                     <select
                         className="form-select"
                         name="difficulty"
-                        onChange={formUpdate}
+                        onChange={ev => formUpdate(ev, props.setFormData)}
                         value={difficulty}
                     >
                         <option value="any">Any difficulty</option>
@@ -65,7 +59,7 @@ export default function StartScreen(props) {
                     <select
                         className="form-select"
                         name="type"
-                        onChange={formUpdate}
+                        onChange={ev => formUpdate(ev, props.setFormData)}
                         value={type}
                     >
                         <option value="any">Any type</option>

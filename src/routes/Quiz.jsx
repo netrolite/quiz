@@ -1,4 +1,5 @@
 import { useState, useEffect, createContext } from "react";
+import { htmlDecode, endQuiz } from "../components/functions";
 import Question from "../components/Question";
 import "bootstrap/dist/css/bootstrap.min.css"
 
@@ -59,15 +60,7 @@ export default function Quiz(props) {
             })
     }, [])
 
-    // decode html entities. E.g: "&amp;" => "&"
-    function htmlDecode(input) {
-        var doc = new DOMParser().parseFromString(input, "text/html");
-        return doc.documentElement.textContent;
-    }
-
-    function endQuiz() {
-        setShowAnswers(true);
-    }
+    
 
     let questionsNodes;
     let buttonsAndScore;
@@ -98,7 +91,7 @@ export default function Quiz(props) {
                 }
                 <button
                     className="btn btn-primary check-answers-btn"
-                    onClick={endQuiz}
+                    onClick={() => endQuiz(setShowAnswers)}
                 >
                     Check Answers
                 </button>
