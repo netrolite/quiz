@@ -10,7 +10,7 @@ export default function Question(props) {
         // answerStyle is used to determine how to display each answer when "Check Answers" button is clicked
         // correct answers are green, incorrect are red, others stay the same (that's what initial null value is used for)
         let answerStyle = null;
-        if (showAnswers && index === selectedAnswerId && item.isCorrect) {
+        if (showAnswers && item.isCorrect) {
             answerStyle = "correct"
         }
         else if (showAnswers && index === selectedAnswerId && !item.isCorrect) {
