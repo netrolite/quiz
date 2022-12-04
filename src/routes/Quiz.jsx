@@ -1,4 +1,4 @@
-import { useState, useEffect, createContext } from "react";
+import React, { useState, useEffect, createContext } from "react";
 import { htmlDecode, endQuiz } from "../components/functions";
 import Question from "../components/Question";
 import "bootstrap/dist/css/bootstrap.min.css"
@@ -7,8 +7,24 @@ export const ShowAnswersContext = createContext();
 
 export default function Quiz(props) {
     const [questionsData, setQuestionsData] = useState();
-    const [showAnswers, setShowAnswers] = useState(false)
-    const [score, setScore] = useState()
+    const [showAnswers, setShowAnswers] = useState(false);
+    const [score, setScore] = useState(0);
+    const [answered, setAnswered] = useState({});
+    console.log(answered);
+
+    useEffect(() => {
+        if (questionsData) {
+            // used to determine whether the user has answered all the questions
+            // would look like:
+            // {0: false, 1: false, 2: true, 3: false}
+            let listOfAnswered = {}
+            for (let i in questionsData) {
+                listOfAnswered[i] = false
+            }
+
+            setAnswered(listOfAnswered);
+        }
+    }, [questionsData])
 
     useEffect(() => {
         // generate api url based on user input
@@ -18,7 +34,7 @@ export default function Quiz(props) {
         // number of questions
         if (numberOfQuestions) fetchUrl += `amount=${numberOfQuestions}`
         // if not provided, default to 10
-        else fetchUrl += "amount=10000000000000"
+        else fetchUrl += "amount=10"
 
         // category
         if (category !== "any") fetchUrl += `&category=${category}`
@@ -54,7 +70,7 @@ export default function Quiz(props) {
 
                     return {
                         question: htmlDecode(item.question),
-                        allAnswers: allAnswers,
+                        allAnswers: allAnswers
                     }
                 }))
             })
@@ -72,6 +88,8 @@ export default function Quiz(props) {
             <Question 
                 question={item.question}
                 allAnswers={item.allAnswers}
+                setAnswered={setAnswered}
+                id={index}
                 key={index}
             />
         ))
@@ -86,7 +104,7 @@ export default function Quiz(props) {
                 {showAnswers
                 &&
                 <div className="score">
-                    {score}
+                    You scored {score}/{questionsData.length} correct answers!
                 </div>
                 }
                 <button
