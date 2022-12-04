@@ -1,4 +1,5 @@
 import React, { useState, useEffect, createContext } from "react";
+import { Link } from "react-router-dom";
 import { htmlDecode, endQuiz } from "../components/functions";
 import Question from "../components/Question";
 import "bootstrap/dist/css/bootstrap.min.css"
@@ -85,7 +86,7 @@ export default function Quiz(props) {
     
 
     let questionsNodes;
-    let buttonsAndScore;
+    let buttons;
 
     // if the questions data is received, fill questionsNodes with question components and fill buttonsAndScore with some data as well
     // otherwise, set questionsNodes to "Loading...", and leave buttonsAndScore undefined
@@ -106,31 +107,46 @@ export default function Quiz(props) {
             </ShowAnswersContext.Provider>
         )
 
-        buttonsAndScore = (
-            <div className="buttons-and-score">
-                {showAnswers
-                &&
-                <div className="score">
-                    You scored {score}/{questionsData.length} correct answers!
-                </div>
+        buttons = (
+            <div className="buttons">
+                {
+                    showAnswers
+                    ?
+                    <>
+                        <button
+                            className={
+                                "btn btn-primary fullwidth"
+                            }
+                        >
+                            New Quiz
+                        </button>
+                        <button
+                            className={
+                                "btn btn-primary fullwidth"
+                            }
+                        >
+                            Start Over
+                        </button>
+                    </>
+                    :
+                    <button
+                        className={
+                            "btn btn-primary fullwidth"
+                            + (!hasAnsweredAll ? " disabled" : "")
+                        }
+                        onClick={
+                            () => endQuiz(
+                                setShowAnswers,
+                                hasAnsweredAll,
+                                setDidntAnswerAllPopupShow,
+                                answered,
+                                setScore
+                            )
+                        }
+                    >
+                        Check Answers
+                    </button>
                 }
-                <button
-                    className={
-                        "btn btn-primary check-answers-btn"
-                        + (!hasAnsweredAll ? " disabled" : "")
-                    }
-                    onClick={
-                        () => endQuiz(
-                            setShowAnswers,
-                            hasAnsweredAll,
-                            setDidntAnswerAllPopupShow,
-                            answered,
-                            setScore
-                        )
-                    }
-                >
-                    Check Answers
-                </button>
             </div>
         )
     }
@@ -143,11 +159,24 @@ export default function Quiz(props) {
             <div className={"popup" + (didntAnswerAllPopupShow ? " active" : "")}>
                 <p>You have to answer all the questions first!</p>
             </div>
+
             <h1>Quiz</h1>
+
             <div className={"questions" + (showAnswers ? " answers-disabled" : "")}>
                 {questionsNodes}
             </div>
-            {buttonsAndScore}
+
+            <div className="score">
+                {
+                    showAnswers
+                    &&
+                    <p>You scored {score}/{questionsData.length} correct answers!</p>
+                }
+            </div>
+
+            <div className="buttons fullwidth">
+                {buttons}
+            </div>
         </>
     )
 }

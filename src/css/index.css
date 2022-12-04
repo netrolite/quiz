@@ -26,7 +26,7 @@ h2 {
     margin-bottom: 15px;
 }
 
-.start-btn {
+.fullwidth {
     width: 100%;
 }
 
@@ -62,12 +62,17 @@ h2 {
     color: #fff;
 }
 
+.buttons {
+    display: flex;
+    gap: 10px;
+    flex-grow: 1;
+}
+
 .check-answers-btn {
-    width: 100%;
     margin-top: 20px;
 }
 
-.check-answers-btn.disabled {
+.btn.disabled {
     pointer-events: all;
     cursor: auto;
 }
@@ -113,4 +118,6 @@ h2 {
 .score {
     font-size: 1.2rem;
     font-weight: 700;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
