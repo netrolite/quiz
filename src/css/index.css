@@ -67,6 +67,11 @@ h2 {
     margin-top: 20px;
 }
 
+.check-answers-btn.disabled {
+    pointer-events: all;
+    cursor: auto;
+}
+
 .correct {
     background-color: var(--bs-success);
 }
@@ -83,4 +88,23 @@ h2 {
 
 .answers-disabled .answer {
     cursor: auto;
+}
+
+.popup {
+    position: fixed;
+    width: 100%;
+    text-align: center;
+    background-color: var(--bs-danger);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.2rem;
+    top: 0;
+    left: 0;
+    padding: 15px;
+    transform: translateY(-100%);
+    transition: 0.3s;
+}
+
+.popup.active {
+    transform: translateY(0);
 }

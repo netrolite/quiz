@@ -17,8 +17,17 @@ function htmlDecode(input) {
     return doc.documentElement.textContent;
 }
 
-function endQuiz(setShowAnswers) {
-    setShowAnswers(true);
+function endQuiz(setShowAnswers, answered, setDidntAnswerAllPopupShow) {
+    // if every question is answered, show correct answers
+    if (Object.values(answered).every(item => item === true)) {
+        setShowAnswers(true);
+    }
+    else {
+        setDidntAnswerAllPopupShow(true);
+        setTimeout(() => {
+            setDidntAnswerAllPopupShow(false);
+        }, 1200);
+    }
 }
 
 export {

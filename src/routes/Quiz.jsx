@@ -10,7 +10,7 @@ export default function Quiz(props) {
     const [showAnswers, setShowAnswers] = useState(false);
     const [score, setScore] = useState(0);
     const [answered, setAnswered] = useState({});
-    console.log(answered);
+    const [didntAnswerAllPopupShow, setDidntAnswerAllPopupShow] = useState(false);
 
     useEffect(() => {
         if (questionsData) {
@@ -108,8 +108,11 @@ export default function Quiz(props) {
                 </div>
                 }
                 <button
-                    className="btn btn-primary check-answers-btn"
-                    onClick={() => endQuiz(setShowAnswers)}
+                    className={
+                        "btn btn-primary check-answers-btn"
+                        + (!showAnswers ? " disabled" : "")
+                    }
+                    onClick={() => endQuiz(setShowAnswers, answered, setDidntAnswerAllPopupShow)}
                 >
                     Check Answers
                 </button>
@@ -122,6 +125,9 @@ export default function Quiz(props) {
 
     return (
         <>
+            <div className={"popup" + (didntAnswerAllPopupShow ? " active" : "")}>
+                <p>You have to answer all the questions first!</p>
+            </div>
             <h1>Quiz</h1>
             <div className={"questions" + (showAnswers ? " answers-disabled" : "")}>
                 {questionsNodes}
