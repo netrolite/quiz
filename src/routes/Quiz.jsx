@@ -7,6 +7,7 @@ export const ShowAnswersContext = createContext();
 export default function Quiz(props) {
     const [questionsData, setQuestionsData] = useState();
     const [showAnswers, setShowAnswers] = useState(false)
+    const [score, setScore] = useState()
 
     useEffect(() => {
         // generate api url based on user input
@@ -82,6 +83,12 @@ export default function Quiz(props) {
 
         buttonsAndScore = (
             <div className="buttons-and-score">
+                {showAnswers
+                &&
+                <div className="score">
+                    {score}
+                </div>
+                }
                 <button
                     className="btn btn-primary check-answers-btn"
                     onClick={endQuiz}
