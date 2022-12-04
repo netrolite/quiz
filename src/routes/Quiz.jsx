@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css"
 
 export default function Quiz(props) {
     const [questionsData, setQuestionsData] = useState();
+    const [showAnswers, setShowAnswers] = useState(false)
 
     useEffect(() => {
         // generate api url based on user input
@@ -55,6 +56,8 @@ export default function Quiz(props) {
     }, [])
 
     let questionsNodes;
+    let buttonsAndScore;
+
     if (questionsData) {
         questionsNodes = questionsData.map((item, index) => (
             <Question 
@@ -63,8 +66,24 @@ export default function Quiz(props) {
                 key={index}
             />
         ))
+
+        buttonsAndScore = (
+            <div className="buttons-and-score">
+                <button
+                    className="btn btn-primary check-answers-btn"
+
+                >
+                    Check Answers
+                </button>
+            </div>
+        )
     }
-    else questionsNodes = <p>Loading...</p>
+    else {
+        questionsNodes = <p>Loading...</p>
+    } 
+
+
+
 
     return (
         <>
@@ -72,12 +91,7 @@ export default function Quiz(props) {
             <div className="questions">
                 {questionsNodes}
             </div>
-            <button
-                className="btn btn-primary check-answers-btn"
-
-            >
-                Check Answers
-            </button>
+            {buttonsAndScore}
         </>
     )
 }
