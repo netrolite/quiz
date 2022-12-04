@@ -3,7 +3,7 @@ import Question from "../components/Question";
 import "bootstrap/dist/css/bootstrap.min.css"
 
 export default function Quiz(props) {
-    const [questions, setQuestions] = useState([]);
+    const [questionsData, setQuestionsData] = useState([]);
 
     useEffect(() => {
         // generate api url based on user input
@@ -29,16 +29,36 @@ export default function Quiz(props) {
                 if (res.ok) return res.json();
             })
             .then(data => {
-                setQuestions(data.results)
+                setQuestionsData(data.results.map(item => {
+                    let allAnswers = item.incorrect_answers.map(item => ({
+                        answer: item,
+                        isCorrect: false,
+                        isSelected: false
+                    }));
+                    const randomIndex = Math.floor(Math.random() * (allAnswers.length + 1));
+                    allAnswers.splice(
+                        randomIndex,
+                        0,
+                        {
+                            answer: item.correct_answer,
+                            isCorrect: true,
+                            isSelected: false,
+                        }
+                    );
+
+                    return {
+                        question: item.question,
+                        allAnswers: allAnswers,
+                    }
+                }))
             })
     }, [])
 
-    const questionsNodes = questions.map((item, index) => (
-        <Question
-            key={index}
+    const questionsNodes = questionsData.map((item, index) => (
+        <Question 
             question={item.question}
-            correctAnswer={item.correct_answer}
-            incorrectAnswers={item.incorrect_answers}
+            allAnswers={item.allAnswers}
+            key={index}
         />
     ))
     
@@ -47,7 +67,7 @@ export default function Quiz(props) {
             <h1>Quiz</h1>
             <div className="questions">
                 {
-                    questions.length
+                    questionsData.length
                     ?
                     questionsNodes
                     :

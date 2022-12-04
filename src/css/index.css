@@ -58,6 +58,6 @@ h2 {
 }
 
 .answer.selected {
-    background-color: blue;
+    background-color: var(--bs-primary);
     color: #fff;
 }
