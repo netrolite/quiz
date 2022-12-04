@@ -78,6 +78,7 @@ h2 {
 
 .incorrect {
     background-color: var(--bs-danger);
+    opacity: 0.5;
 }
 
 .correct, .incorrect {
@@ -107,4 +108,9 @@ h2 {
 
 .popup.active {
     transform: translateY(0);
+}
+
+.score {
+    font-size: 1.2rem;
+    font-weight: 700;
 }
