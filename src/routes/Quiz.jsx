@@ -34,6 +34,7 @@ export default function Quiz(props) {
             })
             .then(data => {
                 setQuestionsData(data.results.map(item => {
+                    // create an array of all answers, where the correct answer is put at a random index
                     let allAnswers = item.incorrect_answers.map(item => ({
                         answer: item,
                         isCorrect: false,
@@ -51,12 +52,18 @@ export default function Quiz(props) {
                     );
 
                     return {
-                        question: item.question,
+                        question: htmlDecode(item.question),
                         allAnswers: allAnswers,
                     }
                 }))
             })
     }, [])
+
+    // decode html entities. E.g: "&amp;" => "&"
+    function htmlDecode(input) {
+        var doc = new DOMParser().parseFromString(input, "text/html");
+        return doc.documentElement.textContent;
+    }
 
     function endQuiz() {
         setShowAnswers(true);

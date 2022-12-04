@@ -3,7 +3,7 @@ import { ShowAnswersContext } from "../routes/Quiz"
 
 export default function Answer(props) {
     const showAnswers = useContext(ShowAnswersContext);
-    console.log(props.componentStyle);
+
 
     let classNames = "answer"
     if (!showAnswers && props.isSelected) {
