@@ -108,18 +108,20 @@ export default function Quiz(props) {
         )
 
         buttons = (
-            <div className="buttons">
+            <>
                 {
                     showAnswers
                     ?
                     <>
-                        <button
-                            className={
-                                "btn btn-primary fullwidth"
-                            }
-                        >
-                            New Quiz
-                        </button>
+                        <Link to="/">
+                            <button
+                                className={
+                                    "btn btn-primary fullwidth"
+                                }
+                            >
+                                New Quiz
+                            </button>
+                        </Link>
                         <button
                             className={
                                 "btn btn-primary fullwidth"
@@ -147,7 +149,7 @@ export default function Quiz(props) {
                         Check Answers
                     </button>
                 }
-            </div>
+            </>
         )
     }
     else {

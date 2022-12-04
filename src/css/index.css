@@ -65,7 +65,10 @@ h2 {
 .buttons {
     display: flex;
     gap: 10px;
-    flex-grow: 1;
+}
+
+.buttons a {
+    width: 100%;    
 }
 
 .check-answers-btn {
