@@ -3,7 +3,7 @@ import Question from "../components/Question";
 import "bootstrap/dist/css/bootstrap.min.css"
 
 export default function Quiz(props) {
-    const [questionsData, setQuestionsData] = useState([]);
+    const [questionsData, setQuestionsData] = useState();
 
     useEffect(() => {
         // generate api url based on user input
@@ -54,26 +54,30 @@ export default function Quiz(props) {
             })
     }, [])
 
-    const questionsNodes = questionsData.map((item, index) => (
-        <Question 
-            question={item.question}
-            allAnswers={item.allAnswers}
-            key={index}
-        />
-    ))
-    
+    let questionsNodes;
+    if (questionsData) {
+        questionsNodes = questionsData.map((item, index) => (
+            <Question 
+                question={item.question}
+                allAnswers={item.allAnswers}
+                key={index}
+            />
+        ))
+    }
+    else questionsNodes = <p>Loading...</p>
+
     return (
         <>
             <h1>Quiz</h1>
             <div className="questions">
-                {
-                    questionsData.length
-                    ?
-                    questionsNodes
-                    :
-                    "Loading..."
-                }
+                {questionsNodes}
             </div>
+            <button
+                className="btn btn-primary check-answers-btn"
+
+            >
+                Check Answers
+            </button>
         </>
     )
 }
