@@ -1,6 +1,6 @@
 import React, { useState, useEffect, createContext } from "react";
 import { Link } from "react-router-dom";
-import { htmlDecode, endQuiz } from "../components/functions";
+import { fetchData, endQuiz } from "../components/functions";
 import Question from "../components/Question";
 import "bootstrap/dist/css/bootstrap.min.css"
 
@@ -34,54 +34,14 @@ export default function Quiz(props) {
     }, [questionsData])
 
     useEffect(() => {
-        // generate api url based on user input
-        const {numberOfQuestions, category, difficulty, type} = props.formData
-        let fetchUrl = "https://opentdb.com/api.php?"
-
-        // number of questions
-        if (numberOfQuestions) fetchUrl += `amount=${numberOfQuestions}`
-        // if not provided, default to 10
-        else fetchUrl += "amount=10"
-
-        // category
-        if (category !== "any") fetchUrl += `&category=${category}`
-
-        // difficulty
-        if (difficulty !== "any") fetchUrl += `&difficulty=${difficulty}`
-
-        // type
-        if (type !== "any") fetchUrl += `&type=${type}`
-
-        fetch(fetchUrl)
-            .then(res => {
-                if (res.ok) return res.json();
-            })
-            .then(data => {
-                setQuestionsData(data.results.map(item => {
-                    // create an array of all answers, where the correct answer is put at a random index
-                    let allAnswers = item.incorrect_answers.map(item => ({
-                        answer: item,
-                        isCorrect: false,
-                        isSelected: false
-                    }));
-                    const randomIndex = Math.floor(Math.random() * (allAnswers.length + 1));
-                    allAnswers.splice(
-                        randomIndex,
-                        0,
-                        {
-                            answer: item.correct_answer,
-                            isCorrect: true,
-                            isSelected: false,
-                        }
-                    );
-
-                    return {
-                        question: htmlDecode(item.question),
-                        allAnswers: allAnswers
-                    }
-                }))
-            })
+        fetchData(props.formData, setQuestionsData);
     }, [])
+
+    function startOver() {
+        setQuestionsData();
+        setShowAnswers(false);
+        fetchData(props.formData, setQuestionsData);
+    }
 
     
 
@@ -122,6 +82,14 @@ export default function Quiz(props) {
                                 New Quiz
                             </button>
                         </Link>
+                        <button
+                                className={
+                                    "btn btn-primary fullwidth"
+                                }
+                                onClick={startOver}
+                            >
+                                Start Over
+                        </button>
                     </>
                     :
                     <button
@@ -148,6 +116,8 @@ export default function Quiz(props) {
     else {
         questionsNodes = <p>Loading...</p>
     }
+
+    //////////////////////////////////////////////////////////////////////////////////////////
 
     return (
         <>
