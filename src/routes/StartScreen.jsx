@@ -70,7 +70,7 @@ export default function StartScreen(props) {
             </form>
             <Link to="/quiz">
                 <button
-                    className="btn btn-primary start-btn"
+                    className="btn btn-primary fullwidth"
                 >
                     Start
                 </button>
