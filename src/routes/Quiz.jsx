@@ -122,13 +122,6 @@ export default function Quiz(props) {
                                 New Quiz
                             </button>
                         </Link>
-                        <button
-                            className={
-                                "btn btn-primary fullwidth"
-                            }
-                        >
-                            Start Over
-                        </button>
                     </>
                     :
                     <button
