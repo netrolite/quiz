@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { HashRouter, Routes, Route } from "react-router-dom"
 import Quiz from "./routes/Quiz";
 import StartScreen from "./routes/StartScreen";
 import NotFound from "./routes/NotFound";
@@ -15,7 +15,7 @@ export default function App() {
 
     return (
         <main>
-            <BrowserRouter>
+            <HashRouter>
                 <Routes>
                     <Route
                         path="/"
@@ -29,7 +29,7 @@ export default function App() {
                     <Route path="/quiz" element={<Quiz formData={formData} />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
-            </BrowserRouter>
+            </HashRouter>
         </main>
     )
 }
