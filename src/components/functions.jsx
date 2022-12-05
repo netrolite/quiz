@@ -36,6 +36,7 @@ function fetchData(formData, setQuestionsData) {
     let fetchUrl = "https://opentdb.com/api.php?";
 
     // number of questions
+    // if the user left "Number of questions" input empty, its value defaults to an emtpy string (which is false)
     if (numberOfQuestions) fetchUrl += `amount=${numberOfQuestions}`
     // if not provided, default to 10
     else fetchUrl += "amount=10"

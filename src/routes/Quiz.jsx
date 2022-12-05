@@ -46,10 +46,10 @@ export default function Quiz(props) {
     
 
     let questionsNodes;
-    let buttons;
+    let buttonsNodes;
 
-    // if the questions data is received, fill questionsNodes with question components and fill buttonsAndScore with some data as well
-    // otherwise, set questionsNodes to "Loading...", and leave buttonsAndScore undefined
+    // if the questions data is received, populate questionsNodes and buttonsNodes
+    // otherwise, set questionsNodes to "Loading...", and leave buttonsNodes undefined
     if (questionsData) {
         questionsNodes = questionsData.map((item, index) => (
             <Question 
@@ -67,53 +67,51 @@ export default function Quiz(props) {
             </ShowAnswersContext.Provider>
         )
 
-        buttons = (
-            <>
-                {
-                    showAnswers
-                    ?
-                    <>
-                        <Link to="/">
-                            <button
-                                className={
-                                    "btn btn-primary fullwidth"
-                                }
-                            >
-                                New Quiz
-                            </button>
-                        </Link>
+        if (showAnswers) {
+            console.log("show answers true");
+            buttonsNodes = (
+                <>
+                    <Link to="/">
                         <button
-                                className={
-                                    "btn btn-primary fullwidth"
-                                }
-                                onClick={startOver}
-                            >
-                                Start Over
+                            className={
+                                "btn btn-primary fullwidth"
+                            }
+                        >
+                            New Quiz
                         </button>
-                    </>
-                    :
+                    </Link>
                     <button
-                        className={
-                            "btn btn-primary fullwidth"
-                            + (!hasAnsweredAll ? " disabled" : "")
-                        }
-                        onClick={
-                            () => endQuiz(
-                                setShowAnswers,
-                                hasAnsweredAll,
-                                setDidntAnswerAllPopupShow,
-                                answered,
-                                setScore
-                            )
-                        }
-                    >
-                        Check Answers
+                            className={
+                                "btn btn-primary fullwidth"
+                            }
+                            onClick={startOver}
+                        >
+                            Start Over
                     </button>
-                }
-            </>
-        )
-    }
-    else {
+                </>
+            )
+        } else {
+            buttonsNodes = (
+                <button
+                    className={
+                        "btn btn-primary fullwidth"
+                        + (!hasAnsweredAll ? " disabled" : "")
+                    }
+                    onClick={() => {
+                        endQuiz(
+                            setShowAnswers,
+                            hasAnsweredAll,
+                            setDidntAnswerAllPopupShow,
+                            answered,
+                            setScore
+                        )
+                    }}
+                >
+                        Check Answers
+                </button>
+            )
+        }
+    } else {
         questionsNodes = <p>Loading...</p>
     }
 
@@ -140,7 +138,7 @@ export default function Quiz(props) {
             </div>
 
             <div className="buttons fullwidth">
-                {buttons}
+                {buttonsNodes}
             </div>
         </>
     )

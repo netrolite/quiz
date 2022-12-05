@@ -17,7 +17,6 @@ export default function StartScreen(props) {
                         name="numberOfQuestions"
                         value={numberOfQuestions}
                         onChange={ev => formUpdate(ev, props.setFormData)}
-                        placeholder="10"
                         max="50"
                         min="1"
                     />
