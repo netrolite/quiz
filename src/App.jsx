@@ -27,7 +27,7 @@ export default function App() {
                         }
                     />
                     <Route path="/quiz" element={<Quiz formData={formData} />} />
-                    <Route path="*" element={<NotFound />} />
+                    <Route path="/*" element={<NotFound />} />
                 </Routes>
             </BrowserRouter>
         </main>
