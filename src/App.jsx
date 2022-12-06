@@ -7,7 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css"
 
 export default function App() {
     const [formData, setFormData] = useState({
-        numberOfQuestions: "10",
+        numberOfQuestions: "5",
         category: "any",
         difficulty: "any",
         type: "any"

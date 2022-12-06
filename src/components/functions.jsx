@@ -1,3 +1,4 @@
+// controlled inputs thing
 function formUpdate(ev, setFormData) {
     setFormData(prevState => ({
         ...prevState,
@@ -5,18 +6,21 @@ function formUpdate(ev, setFormData) {
     }))
 }
 
+// is run when an answer is clicked
 function selectAnswer(showAnswers, setSelectedAnswerId, id) {
     if (!showAnswers) {
         setSelectedAnswerId(id);
     }
 }
 
-// decode html entities. E.g: "&amp;" => "&"
+// decode html entities
+// "&amp;" => "&"
 function htmlDecode(input) {
-    var doc = new DOMParser().parseFromString(input, "text/html");
+    let doc = new DOMParser().parseFromString(input, "text/html");
     return doc.documentElement.textContent;
 }
 
+// is run when "Check Answers" is clicked
 function endQuiz(setShowAnswers, hasAnsweredAll, setDidntAnswerAllPopupShow) {
     // if every question is answered, show correct answers
     if (hasAnsweredAll) {
@@ -30,6 +34,7 @@ function endQuiz(setShowAnswers, hasAnsweredAll, setDidntAnswerAllPopupShow) {
     }
 }
 
+// is run when quiz starts
 function fetchData(formData, setQuestionsData) {
     // generate api url based on user input
     const {numberOfQuestions, category, difficulty, type} = formData;
@@ -38,8 +43,8 @@ function fetchData(formData, setQuestionsData) {
     // number of questions
     // if the user left "Number of questions" input empty, its value defaults to an emtpy string (which is false)
     if (numberOfQuestions) fetchUrl += `amount=${numberOfQuestions}`
-    // if not provided, default to 10
-    else fetchUrl += "amount=10"
+    // if not provided (an empty string), default to 5
+    else fetchUrl += "amount=5"
     // category
     if (category !== "any") fetchUrl += `&category=${category}`
     // difficulty
@@ -78,10 +83,49 @@ function fetchData(formData, setQuestionsData) {
         })
 }
 
+// if user has selected an option, set answered to true for that question
+// 0 is a falsy value
+function setAnsweredItemToTrue(setAnswered, id) {
+    setAnswered(prevState => (
+        {
+            ...prevState,
+            [id]: true
+        }
+    ))
+}
+
+// this is passed to every question
+// checks if user answered correctly
+// if so, increments score by 1
+function calculateScore(allAnswers, selectedAnswerId, setScore) {
+
+    allAnswers.map((item, index) => {
+        if (index === selectedAnswerId && item.isCorrect) {
+            setScore(prevState => prevState + 1);
+        }
+    })
+}
+
+// run when quiz starts
+// resets answered
+// answered would look like:
+// { 0: false, 1: false, 2: false, 3: false }
+function resetAnswered(questionsData, setAnswered) {
+    let listOfAnswered = {}
+    for (let i in questionsData) {
+        listOfAnswered[i] = false
+    }
+
+    setAnswered(listOfAnswered);
+}
+
 export {
     formUpdate,
     selectAnswer,
     htmlDecode,
     endQuiz,
-    fetchData
+    fetchData,
+    setAnsweredItemToTrue,
+    calculateScore,
+    resetAnswered
 }

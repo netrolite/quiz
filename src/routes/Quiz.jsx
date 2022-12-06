@@ -1,6 +1,6 @@
 import React, { useState, useEffect, createContext } from "react";
 import { Link } from "react-router-dom";
-import { fetchData, endQuiz } from "../components/functions";
+import { fetchData, endQuiz, resetAnswered } from "../components/functions";
 import Question from "../components/Question";
 import "bootstrap/dist/css/bootstrap.min.css"
 
@@ -12,6 +12,7 @@ export default function Quiz(props) {
     const [score, setScore] = useState(0);
     const [answered, setAnswered] = useState({});
     const [didntAnswerAllPopupShow, setDidntAnswerAllPopupShow] = useState(false);
+    console.log(answered);
 
     let hasAnsweredAll;
     if (Object.values(answered).every(item => item === true)) {
@@ -19,17 +20,15 @@ export default function Quiz(props) {
     }
     else hasAnsweredAll = false;
 
+    // runs only when questionsData changes
+    // that is, only when data is received from the api
     useEffect(() => {
         if (questionsData) {
-            // used to determine whether the user has answered all the questions
+            // "answered" is used to determine whether the user has answered all the questions
             // would look like:
             // {0: false, 1: false, 2: true, 3: false}
-            let listOfAnswered = {}
-            for (let i in questionsData) {
-                listOfAnswered[i] = false
-            }
-
-            setAnswered(listOfAnswered);
+            console.log("reset answered");
+            resetAnswered(questionsData, setAnswered);
         }
     }, [questionsData])
 
@@ -40,6 +39,7 @@ export default function Quiz(props) {
     function startOver() {
         setQuestionsData();
         setShowAnswers(false);
+        setAnswered({});
         fetchData(props.formData, setQuestionsData);
     }
 
@@ -68,7 +68,6 @@ export default function Quiz(props) {
         )
 
         if (showAnswers) {
-            console.log("show answers true");
             buttonsNodes = (
                 <>
                     <Link to="/">
@@ -114,8 +113,6 @@ export default function Quiz(props) {
     } else {
         questionsNodes = <p>Loading...</p>
     }
-
-    //////////////////////////////////////////////////////////////////////////////////////////
 
     return (
         <>

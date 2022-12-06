@@ -1,31 +1,23 @@
 import { useState, useContext, useEffect } from "react";
 import { ShowAnswersContext } from "../routes/Quiz";
+import { setAnsweredItemToTrue, calculateScore } from "./functions";
 import Answer from "./Answer";
 
 export default function Question(props) {
-    const [selectedAnswerId, setSelectedAnswerId] = useState(null);
+    const [selectedAnswerId, setSelectedAnswerId] = useState();
     const showAnswers = useContext(ShowAnswersContext)
 
+    // calculate score
     useEffect(() => {
         if (showAnswers) {
-            props.allAnswers.map((item, index) => {
-                if (index === selectedAnswerId && item.isCorrect) {
-                    props.setScore(prevState => prevState + 1);
-                }
-            })
+            calculateScore(props.allAnswers, selectedAnswerId, props.setScore);
         }
     }, [showAnswers])
 
-    // if user has selected an option, set answered to true
-    // 0 is a falsy value
+    // if user has selected an option, set setAnswered to true for this question
     useEffect(() => {
         if (selectedAnswerId >= 0) {
-            props.setAnswered(prevState => (
-                {
-                    ...prevState,
-                    [props.id]: true
-                }
-            ))
+            setAnswered(props.setAnswered, props.id)
         }
     }, [selectedAnswerId])
 
@@ -58,7 +50,7 @@ export default function Question(props) {
             <p className="question">
                 {props.question}
             </p>
-            <div className={"answers"}>
+            <div className="answers">
                 {answersNodes}
             </div>
         </div>
