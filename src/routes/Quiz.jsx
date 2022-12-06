@@ -47,6 +47,7 @@ export default function Quiz(props) {
     function startOver() {
         setQuestionsData();
         setShowAnswers(false);
+        setScore(0);
         setAnswered({});
         fetchData(props.formData, setQuestionsData);
     }
