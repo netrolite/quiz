@@ -1,9 +1,8 @@
 import { formUpdate } from "../components/functions";
 import { Link } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css"
 
 export default function StartScreen(props) {
-    const { numberOfQuestions, category, difficulty, type } = props.formData
+    const { numberOfQuestions, category, difficulty, type } = props.formData;
     
     return (
         <>

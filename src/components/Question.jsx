@@ -14,10 +14,10 @@ export default function Question(props) {
         }
     }, [showAnswers])
 
-    // if user has selected an option, set setAnswered to true for this question
+    // if user has selected an option, set setAnsweredItemToTrue to true for this question
     useEffect(() => {
         if (selectedAnswerId >= 0) {
-            setAnswered(props.setAnswered, props.id)
+            setAnsweredItemToTrue(props.setAnswered, props.id)
         }
     }, [selectedAnswerId])
 

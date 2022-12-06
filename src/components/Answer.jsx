@@ -3,6 +3,8 @@ import { selectAnswer, htmlDecode } from "./functions";
 import { ShowAnswersContext } from "../routes/Quiz"
 
 export default function Answer(props) {
+    // context from "Quiz"
+    // used to determine needed class names
     const showAnswers = useContext(ShowAnswersContext);
 
     let classNames = "answer"
@@ -16,7 +18,7 @@ export default function Answer(props) {
         classNames += " incorrect"
     }
 
-    const formattedAnswer = htmlDecode(props.answer)
+    const formattedAnswer = htmlDecode(props.answer);
 
     return (
         <div

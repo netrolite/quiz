@@ -1,41 +1,49 @@
-import React, { useState, useEffect, createContext } from "react";
+import { useState, useEffect, createContext } from "react";
 import { Link } from "react-router-dom";
-import { fetchData, endQuiz, resetAnswered } from "../components/functions";
+import { fetchData, endQuiz, resetAnswered, setAnsweredItemToTrue } from "../components/functions";
 import Question from "../components/Question";
-import "bootstrap/dist/css/bootstrap.min.css"
 
 export const ShowAnswersContext = createContext();
 
 export default function Quiz(props) {
+    // will be fetched from an api
     const [questionsData, setQuestionsData] = useState();
+    // whether questions should display their correct answers
     const [showAnswers, setShowAnswers] = useState(false);
+    // how many questions user got right
     const [score, setScore] = useState(0);
+    // list of all questions and if user has answered them
+    // { 0: false, 1: true: 2: false: 3: false }
+    // would mean that only second question is answered
+    // this is used to determine whether to make "Check Answers" button clickable or not
     const [answered, setAnswered] = useState({});
+    // if user hasn't answered all the questions but tries to click "Check Answers", this would be set to true and trigger a popup at the top
     const [didntAnswerAllPopupShow, setDidntAnswerAllPopupShow] = useState(false);
-    console.log(answered);
 
+    // determine if all the questions are answered
     let hasAnsweredAll;
     if (Object.values(answered).every(item => item === true)) {
         hasAnsweredAll = true
     }
     else hasAnsweredAll = false;
 
-    // runs only when questionsData changes
-    // that is, only when data is received from the api
+    // resets "answered" to be all false
+    // runs when "questionsData" changes
+    // "questionsData" only changes when data is received from the api
     useEffect(() => {
+        // if received the questions from the api
         if (questionsData) {
-            // "answered" is used to determine whether the user has answered all the questions
-            // would look like:
-            // {0: false, 1: false, 2: true, 3: false}
-            console.log("reset answered");
             resetAnswered(questionsData, setAnswered);
         }
     }, [questionsData])
 
+    // fetch data on component mount
     useEffect(() => {
         fetchData(props.formData, setQuestionsData);
     }, [])
 
+    // start a new quiz
+    // runs when "Start Over" button is clicked
     function startOver() {
         setQuestionsData();
         setShowAnswers(false);
@@ -43,13 +51,14 @@ export default function Quiz(props) {
         fetchData(props.formData, setQuestionsData);
     }
 
-    
+    //-------------------------------------//
+    // NODES
 
     let questionsNodes;
     let buttonsNodes;
 
-    // if the questions data is received, populate questionsNodes and buttonsNodes
-    // otherwise, set questionsNodes to "Loading...", and leave buttonsNodes undefined
+    // if the questions data is received, populate questionsNodes and buttonsNodes.
+    // Otherwise, set questionsNodes to "Loading...", and leave buttonsNodes undefined
     if (questionsData) {
         questionsNodes = questionsData.map((item, index) => (
             <Question 
@@ -67,6 +76,7 @@ export default function Quiz(props) {
             </ShowAnswersContext.Provider>
         )
 
+        // if "Check Answers" is clicked, show "New Quiz" and "Start Over" buttons
         if (showAnswers) {
             buttonsNodes = (
                 <>
@@ -89,7 +99,9 @@ export default function Quiz(props) {
                     </button>
                 </>
             )
-        } else {
+        } 
+        // Otherwise, show "Check Answers" button only
+        else {
             buttonsNodes = (
                 <button
                     className={
